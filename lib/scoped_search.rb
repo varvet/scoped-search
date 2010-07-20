@@ -17,7 +17,13 @@ class ScopedSearch
 
       @attributes_merged.each do |attribute, value|
         class_eval <<-RUBY
-          attr_reader :#{attribute}
+          def #{attribute}
+            @attributes[:#{attribute}]
+          end
+          
+          def #{attribute}=(val)
+            @attributes[:#{attribute}] = val
+          end
         RUBY
         instance_variable_set(:"@#{attribute}", value)
       end
@@ -27,7 +33,7 @@ class ScopedSearch
       return model_class if attributes.empty?
       attributes.reject { |k,v| v.blank? }.inject(model_class) do |s, k|
         if model_class.scopes.keys.include?(k.first.to_sym)
-          k.size == 2 && SINGLE_SCOPES_VALUES.include?(k.last) ? s.send(k.first) : s.send(*k)
+          k.size == 2 && SINGLE_SCOPES_VALUES.include?(k.last.to_s) ? s.send(k.first) : s.send(*k)
         else
           s
         end

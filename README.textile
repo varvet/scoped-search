@@ -44,6 +44,27 @@ In your ApplicationHelper, include the ScopedSearch::Helpers module :
   end
 </pre>
 
+h2. Console testing
+
+You can test the search object in a console!
+
+<pre>
+  > search = Post.scoped_search
+   => #<ScopedSearch::Base...>
+  > search.count
+   => 4
+  > search.all.map(&:body)
+   => ["test", "lalala", "foo", "bar"] 
+  > search.retrieve = "foo"
+   => "foo"
+  > search.count
+   => 1 
+  > search.all
+   => [#<Post id: 3, title: nil, body: "foo"...]
+</pre>
+
+h2. Usage
+
 Then in your controller you can do like this :
 
 <pre>
