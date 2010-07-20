@@ -19,7 +19,7 @@ h2. Installation
 For now, ScopedSearch is under development. You may use it as plugin. It will be released as a gem later.
 
 <pre>
-  rails plugin install git://github.com/novagile/scoped_search
+  rails plugin install git://github.com/novagile/scoped_search.git
 </pre>
 
 ScopedSearch does not dynamically include itself in ActiveRecord or Mongoid, you have to include it in your models where you want to use it.
@@ -36,7 +36,7 @@ Simply include the ScopedSearch::Model module in your models like this...
     ...
 </pre>
 
-In your ApplicationHelper, include the ScopedSearch::Helpers :
+In your ApplicationHelper, include the ScopedSearch::Helpers module :
 
 <pre>
   module ApplicationHelper
@@ -66,14 +66,14 @@ In your view, you can create a form that takes your search object as parameter, 
 
 h2. Column ordering
 
-You want to get column ordering for free ? Sure!
+You want to get column ordering for free? Sure!
 In your model, use the scoped_order method like this :
 
 <pre>
   class Post < ActiveRecord::Base
-  ...
-  scoped_order :title, created_at, :updated_at # , ...
-  ...
+    ...
+    scoped_order :title, created_at, :updated_at # , ...
+    ...
 </pre>
 
 It will add two scopes for each column, named "ascend_by_column_name" and "descend_by_column_name" (like Searchlogic).
