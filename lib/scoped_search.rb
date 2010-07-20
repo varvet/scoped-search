@@ -25,7 +25,6 @@ class ScopedSearch
             @attributes[:#{attribute}] = val
           end
         RUBY
-        instance_variable_set(:"@#{attribute}", value)
       end
     end
     
