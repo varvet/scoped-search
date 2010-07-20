@@ -1,0 +1,2 @@
+require "scoped_search"
+
