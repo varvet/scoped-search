@@ -53,8 +53,12 @@ class ScopedSearch
       if record.is_a?(ScopedSearch::Base)
         options = args.extract_options!
         options.symbolize_keys!
-
-        options.reverse_merge!({ :url => polymorphic_path(record.model_class), :as => :search })
+        
+        default_model_route = (polymorphic_path(record.model_class) rescue nil)
+        
+        options.reverse_merge!({ :url => default_model_route, :as => :search })
+        raise "You have to manually specify :url in your form_for options..." unless options[:url].present?
+        
         options[:html] ||= {}
         options[:html].reverse_merge!({ :method => :get })
         args << options
