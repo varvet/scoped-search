@@ -16,10 +16,21 @@ the same. I really wanted the same behaviour in Rails 3 and compatible with both
 
 h2. Installation
 
-For now, ScopedSearch is under development. You may use it as plugin. It will be released as a gem later.
+For now, ScopedSearch is under development.
+You may use it as plugin or as a gem.
+
+**Gem**
+
+Edit your Gemfile and add :
 
 <pre>
-  rails plugin install git://github.com/novagile/scoped_search.git
+  gem 'scoped-search'
+</pre>
+
+**Plugin**
+
+<pre>
+  rails plugin install git://github.com/novagile/scoped-search.git
 </pre>
 
 ScopedSearch does not dynamically include itself in ActiveRecord or Mongoid, you have to include it in your models where you want to use it.

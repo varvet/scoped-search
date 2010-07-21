@@ -6,11 +6,11 @@ require "rspec/core/rake_task"
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "scoped_search"
+    gem.name = "scoped-search"
     gem.summary = %Q{Easily implement search forms and column ordering based on your models scopes}
     gem.description = %Q{Easily implement search forms and column ordering based on your models scopes. For Rails 3, compatible with ActiveRecord and Mongoid.}
     gem.email = "slainer68@gmail.com"
-    gem.homepage = "http://github.com/novagile/scoped_search"
+    gem.homepage = "http://github.com/novagile/scoped-search"
     gem.authors = ["slainer68"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
