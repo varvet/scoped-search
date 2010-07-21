@@ -24,7 +24,7 @@ You may use it as plugin or as a gem.
 Edit your Gemfile and add :
 
 <pre>
-  gem 'scoped-search'
+  gem 'scoped-search', :require => "scoped_search"
 </pre>
 
 **Plugin**
