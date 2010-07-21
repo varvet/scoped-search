@@ -7,6 +7,7 @@ class ScopedSearch
     extend ActiveModel::Naming
     
     SINGLE_SCOPES_VALUES = %w(true 1)
+    EXCLUDED_SCOPES_VALUES = %w(false 0)
     
     attr_reader :attributes, :model_class, :attributes_merged
     
@@ -30,7 +31,7 @@ class ScopedSearch
     
     def build_relation
       return model_class if attributes.empty?
-      attributes.reject { |k,v| v.blank? }.inject(model_class) do |s, k|
+      attributes.reject { |k,v| v.blank? || EXCLUDED_SCOPES_VALUES.include?(v.to_s) }.inject(model_class) do |s, k|
         if model_class.scopes.keys.include?(k.first.to_sym)
           k.size == 2 && SINGLE_SCOPES_VALUES.include?(k.last.to_s) ? s.send(k.first) : s.send(*k.flatten)
         else
