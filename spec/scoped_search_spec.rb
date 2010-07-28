@@ -4,6 +4,8 @@ require "spec_helper"
   Post.create(:title => title, :body => "blah", :published => title.include?("pipo"))
 end
 
+Post.create(:title => "test multi params", :body => "this is to test multi params, whaaaa")
+
 describe 'ScopedSearch' do
   it 'should respond to scoped_search and return a ScopedSearch::Base object' do
     Post.should respond_to(:scoped_search)
@@ -11,10 +13,10 @@ describe 'ScopedSearch' do
   end
   
   it 'should have the same count when initializing an empty search' do
-    Post.count.should == 6
+    Post.count.should == 7
     
     @search = Post.scoped_search
-    @search.count.should == 6
+    @search.count.should == 7
   end
   
   describe 'initialization' do
@@ -46,7 +48,7 @@ describe 'ScopedSearch' do
       
       @search.all.should have(1).element
       @search.retrieve = nil
-      @search.count.should == 6
+      @search.count.should == 7
     end
     
     it 'should be possible to search with multiple parameters' do
@@ -59,6 +61,27 @@ describe 'ScopedSearch' do
       @search.retrieve = nil
       @search.count.should == 2
       @search.all.should have(2).elements
+    end
+    
+    it 'should be possible to search in a multi params scope' do
+      @search = Post.scoped_search
+      
+      @search.retrieve_in_title_and_body = ["test", "whaaaa"]
+      @search.retrieve_in_title_and_body_multi_params = true
+      @search.count.should == 1
+      
+      @search = Post.scoped_search({ :retrieve_in_title_and_body => ["test", "whaaaa"], :retrieve_in_title_and_body_multi_params => "true" })
+      @search.count.should == 1
+    end
+    
+    it 'should be possible to search in a scope that wants an Array' do
+      @search = Post.scoped_search
+
+      @search.retrieve_ids = ["3", "4"]
+      @search.count.should == 2
+      
+      @search = Post.scoped_search({ :retrieve_ids => ["3", "4"] })
+      @search.count.should == 2
     end
   end
   

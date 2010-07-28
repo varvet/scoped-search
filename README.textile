@@ -119,6 +119,31 @@ Then in your views, you may use the order_for_scoped_search view helper like thi
       ...
 </pre>
 
+h2. Issue with single Array attribute and multi parameters scopes
+
+When you define a scope, you may define it with a single value that accepts an array, or as a multi parameters scope.
+But I haven't find an easy way yet to know the number of parameters a scope accepts (if you know, please tell me!).
+So, for now, if you pass an array to a scoped attribute, it will be passed as an array to the scope.
+If you set attributename_multi_params to true, it will be passed as multiple params to the scope.
+
+Example :
+
+<pre>
+  class Post < ActiveRecord::Base
+    scope :retrieve_in_title_and_body, lambda { |a, b| where("title like ? and body like ?", "%#{a}%", "%#{b}") }
+    scope :retrieve_ids, lambda { |ids| where(:id => ids) }
+  end
+  
+  # For a multi params scope
+  #
+  > search = Post.scoped_search
+  > search.retrieve_in_title_and_body = ["test", "whaaaa"]
+  > search.retrieve_in_title_and_body_multi_params = true
+  
+  # For an Array param
+  > search.retrieve_ids = [1,2,3]  
+</pre>
+
 h2. Notes
 
 This plugin is new and under development, patches and contributions are welcome! Please fork and make pull requests, thanks!

@@ -18,6 +18,8 @@ class ScopedSearch
 
       @attributes_merged.each do |attribute, value|
         class_eval <<-RUBY
+          attr_accessor :#{attribute}_multi_params
+        
           def #{attribute}
             @attributes[:#{attribute}]
           end
@@ -33,7 +35,13 @@ class ScopedSearch
       return model_class if attributes.empty?
       attributes.reject { |k,v| v.blank? || EXCLUDED_SCOPES_VALUES.include?(v.to_s) }.inject(model_class) do |s, k|
         if model_class.scopes.keys.include?(k.first.to_sym)
-          k.size == 2 && SINGLE_SCOPES_VALUES.include?(k.last.to_s) ? s.send(k.first) : s.send(*k.flatten)
+          
+          if k.size == 2 && SINGLE_SCOPES_VALUES.include?(k.last.to_s)
+            s.send(k.first)
+          else
+            multi_params?(k.first) ? s.send(*k.flatten) : s.send(k.first, k[1..-1].flatten)
+          end
+          
         else
           s
         end
@@ -44,6 +52,11 @@ class ScopedSearch
     
     def method_missing(method_name, *args)
       build_relation.send(method_name, *args)
+    end
+    
+    protected
+    def multi_params?(attribute)
+      send("#{attribute}_multi_params").present?
     end
   end
   

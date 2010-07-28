@@ -24,8 +24,11 @@ class Post < ActiveRecord::Base
   
   scope :published, where(:published => true)
   scope :retrieve, lambda { |q| where("title like ?", "%#{q}%") }
+  scope :retrieve_in_title_and_body, lambda { |a,b| where("title like ? and body like ?", "%#{a}%", "%#{b}") }
+  scope :retrieve_ids, lambda { |ids| where(:id => ids) }
 end
 
 RSpec.configure do |config|
   config.mock_with :rspec
 end
+
