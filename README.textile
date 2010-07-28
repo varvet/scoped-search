@@ -122,7 +122,7 @@ Then in your views, you may use the order_for_scoped_search view helper like thi
 h2. Issue with single Array attribute and multi parameters scopes
 
 When you define a scope, you may define it with a single value that accepts an array, or as a multi parameters scope.
-But I haven't find an easy way yet to know the number of parameters a scope accepts (if you know, please tell me!).
+But I haven't found an easy way yet to know the number of parameters a scope accepts (if you know, please tell me!).
 So, for now, if you pass an array to a scoped attribute, it will be passed as an array to the scope.
 If you set attributename_multi_params to true, it will be passed as multiple params to the scope.
 
