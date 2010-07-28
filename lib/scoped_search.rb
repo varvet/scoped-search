@@ -36,7 +36,7 @@ class ScopedSearch
       attributes.reject { |k,v| v.blank? || EXCLUDED_SCOPES_VALUES.include?(v.to_s) }.inject(model_class) do |s, k|
         if model_class.scopes.keys.include?(k.first.to_sym)
           
-          if k.size == 2 && SINGLE_SCOPES_VALUES.include?(k.last.to_s)
+          if k.size == 2 && !k.last.is_a?(Array) && SINGLE_SCOPES_VALUES.include?(k.last.to_s)
             s.send(k.first)
           else
             multi_params?(k.first) ? s.send(*k.flatten) : s.send(k.first, k[1..-1].flatten)
